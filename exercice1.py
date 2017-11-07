@@ -6,8 +6,6 @@ Created on Tue Nov  7 08:41:01 2017
 @author: guillaumecathelain
 """
 
-from scipy import signal
-
 fs = 1000 # en Hz, il s'agit d'un signal quasi continu
 F = 1
 n = fs
