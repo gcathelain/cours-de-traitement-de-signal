@@ -33,8 +33,8 @@ title('Représentation spectrale du signal')
 
 
 #Spectrogramme
-
-f,t,Sxx = spectrogram(x,fs, nperseg = int(fs*0.2), noverlap=nperseg)
+nperseg = int(fs*0.2)
+f,t,Sxx = spectrogram(x,fs, nperseg = nperseg, noverlap=nperseg//2)
 figure()
 pcolormesh(t,f,Sxx)
 ylabel('Frequence en Hz')
