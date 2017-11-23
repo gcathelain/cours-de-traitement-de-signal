@@ -16,9 +16,9 @@ from scipy.signal import spectrogram, lfilter, butter
 #wfdb.dldatabase('slpdb', os.getcwd())
 
 #Choisir un signal
-signals, fields = srdsamp('slp04')
+#signals, fields = srdsamp('slp04')
 #signals, fields = srdsamp('slp32')
-#signals, fields = srdsamp('slp48')
+signals, fields = srdsamp('slp48')
 #signals, fields = srdsamp('slp59')
 
 
@@ -33,8 +33,35 @@ xlabel('Temps [min]')
 ylabel('Amplitude [mV]')
 title('Signal EEG brut')
 
+
+nyq = fs/2
+order = 2
+fmin,fmax = 0.5,30
+Wn = array([fmin/nyq,fmax/nyq])
+b,a = butter(order,Wn,'bandpass')
+eeg_f = lfilter(b,a,eeg)
+eeg_f = eeg_f[2*fs:]
+t_f = t[2*fs:]
+subplot(212)
+plot(t_f,eeg_f)
+title('Signal eeg préfiltré')
+xlabel('Temps [s]')
+ylabel('Amplitude [V]')
+grid('on')
+ylim([-5e-5,5e-5])
+
+freq, h = freqz(b,a)
+figure()
+semilogy(nyq*freq/pi, abs(h))
+grid('on')
+xlabel('Frequence en Hz')
+ylabel('Gain')
+title('Réponse fréquentielle du filtre')
+
+
+
 #%% Spectrogram sur les bandes delta, theta, alpha, beta
-nperseg = int(4*fs)
+nperseg = int(1000*fs)
 f_spec, t_spec, Sxx = spectrogram(eeg, fs, nperseg = nperseg,noverlap=nperseg//2)
 
 figure()
@@ -140,4 +167,37 @@ xlabel('Temps [min]')
 ylabel('Amplitude [mV]')
 grid('on')
 
-#%% Autres bandes
+#%% Alpha (8-12Hz)
+#filtrage
+fmin = 8
+fmax = 12
+
+nyq = fs/2   # frequence de Nyquist pour respecter la condition de Shannon
+order = 4  #ordre du filtre
+
+Wn = array([fmin/nyq,fmax/nyq])
+b,a = butter(order,Wn,'bandpass')
+freq, h = freqz(b,a)
+
+figure()
+semilogy(nyq*freq/pi, abs(h))
+grid('on')
+xlabel('Frequence [Hz]')
+ylabel('Gain')
+title('Réponse fréquentielle du filtre')
+
+eeg_t = lfilter(b,a,eeg)
+
+figure()
+subplot(211)
+plot(t/60,eeg)
+title('Signal eeg brut')
+ylabel('Amplitude [mV]')
+grid('on')
+
+subplot(212)
+plot(t/60,eeg_t)
+title('Bande Alpha')
+xlabel('Temps [min]')
+ylabel('Amplitude [mV]')
+grid('on')

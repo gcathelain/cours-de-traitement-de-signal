@@ -32,7 +32,7 @@ grad= uint8(grad)
 imshow('Gradient de l\'image',grad)
 
 #%% Les filtres
-b1_flou = array([0.5,1,0.5])
+b1_flou = array([-1,1])
 freq, h = freqz(b1_flou,1)
 fs = 630/100
 nyq = fs/2

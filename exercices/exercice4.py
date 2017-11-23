@@ -11,36 +11,42 @@ from scipy.signal import spectrogram, firls,freqz, butter,lfilter, periodogram
 #Charger le signal
 filename = "ch3_F3.txt"
 eeg = loadtxt(filename)
+n=36000
+fs=200
 # .... #
 t = linspace(0,(n-1)/fs,n)
 
-#Représentation temporelle du signal
+#%%Représentation temporelle du signal
 figure()
 subplot(211)
-# .... #
+plot(t,eeg)
 title('Signal eeg brut')
 xlabel('Temps [s]')
 ylabel('Amplitude [V]')
 grid('on')
 
-#préfiltrage
+#%%préfiltrage
 # .... #
+nyq = fs/2
+order = 4
+fmin = 1
+fmax = 20
 Wn = array([fmin/nyq,fmax/nyq])
 b,a = butter(order,Wn,'bandpass')
 eeg_f = lfilter(b,a,eeg)
 eeg_f = eeg_f[2*fs:]
 t_f = t[2*fs:]
 subplot(212)
-# .... #
+plot(t_f,eeg_f)
 title('Signal eeg préfiltré')
 xlabel('Temps [s]')
 ylabel('Amplitude [V]')
 grid('on')
 
-#Représentation temps-fréquence
+#%%Représentation temps-fréquence
 figure()
 nperseg = int(3*fs)
-# .... #
+f_spec,t_spec,Sxx = spectrogram(eeg_f,fs, nperseg = nperseg, noverlap=nperseg//2)
 pcolormesh(t_spec,f_spec,Sxx)
 ylabel('Frequence en Hz')
 xlabel('Temps en secondes')

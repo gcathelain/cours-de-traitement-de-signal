@@ -7,7 +7,7 @@ Created on Tue Nov  7 18:10:20 2017
 """
 from scipy.signal import periodogram, spectrogram
 
-#Modulation en fréquence
+#%%Modulation en fréquence
 # superposition de sinus
 fs = 500 # la frequence d'echantillonnage en Hz. Attention à vérifier la condition de Shannon
 fp = 10  #frequence de la porteuse
@@ -32,8 +32,8 @@ ylabel('densité spectrale de puissance [V^2/Hz]')
 title('Représentation spectrale du signal')
 
 
-#Spectrogramme
-nperseg = int(fs*0.2)
+#%%Spectrogramme
+nperseg = int(fs*5)
 f,t,Sxx = spectrogram(x,fs, nperseg = nperseg, noverlap=nperseg//2)
 figure()
 pcolormesh(t,f,Sxx)

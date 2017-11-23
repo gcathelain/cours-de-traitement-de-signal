@@ -21,8 +21,8 @@ ylabel('Amplitude')
 title('Signal analogique')
 
 
-#échantillonnage
-k = 10
+#%%échantillonnage
+k = 30
 f_ech = fs/k # en Hz, il s'agit d'un signal échantillonné
 t_ech = t[arange(0,n-1,k)]
 sinus_ech = sin(2*pi*F*t_ech)
@@ -34,16 +34,16 @@ for i in range(len(sinus_ech)):
     sinus_bloq = concatenate((sinus_bloq,ones(k)*sinus_ech[i]))
 
 subplot(122)
-plot(t,sinus_bloq)
+plot(t,sinus_ech)
 xlabel('Temps en secondes')
 ylabel('Amplitude')
 title('Signal échantillonné à 100 Hz')
 
 
-# codage et loi de quantification uniforme
+# %% codage et loi de quantification uniforme
 figure()
 N = 256
-n = 16
+n = 16  #4bits
 x = linspace(-1,1,N)
 val_y = linspace(-1,1,n)
 y = zeros(0)

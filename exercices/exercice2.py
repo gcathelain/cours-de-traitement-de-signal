@@ -7,7 +7,7 @@ Created on Tue Nov  7 15:56:34 2017
 """
 from scipy.signal import periodogram, firls, freqz, lfilter
 
-# superposition de sinus
+#%% superposition de sinus
 fs = 500 # la frequence d'echantillonnage en Hz. Attention à vérifier la condition de Shannon
 F1 = 1
 F2 = 10
@@ -29,11 +29,11 @@ xlabel('fréquence [Hz]')
 ylabel('densité spectrale de puissance [V^2/Hz]')
 title('Représentation spectrale du signal')
 
-# filtrage passe bas
+#%% filtrage passe bas
 nyq = fs/2   # frequence de Nyquist pour respecter la condition de Shannon
 maxOrder = 201  #ordre du filtre
 bands = (0,F1,F2,nyq)
-desired = (1,1,0,0)
+desired = (0,0,1,1)
 coeffs = firls(maxOrder, bands, desired,nyq = nyq)
 
 freq, h = freqz(coeffs)
