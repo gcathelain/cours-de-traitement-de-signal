@@ -22,7 +22,7 @@ title('Signal analogique')
 
 
 #%%échantillonnage
-k = 30
+k = 10
 f_ech = fs/k # en Hz, il s'agit d'un signal échantillonné
 t_ech = t[arange(0,n-1,k)]
 sinus_ech = sin(2*pi*F*t_ech)
@@ -34,7 +34,7 @@ for i in range(len(sinus_ech)):
     sinus_bloq = concatenate((sinus_bloq,ones(k)*sinus_ech[i]))
 
 subplot(122)
-plot(t,sinus_ech)
+plot(t,sinus_bloq)
 xlabel('Temps en secondes')
 ylabel('Amplitude')
 title('Signal échantillonné à 100 Hz')
